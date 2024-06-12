@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - GreenGrowAPI
+name: Build and deploy WAR app to Azure Web App - GreenGrowAPI
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
-          java-version: '21'
+          java-version: 'java21'
 
       - name: Build with Maven
         run: mvn clean install
@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ github.workspace }}/target/*.war'
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
-  
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -48,9 +48,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_83F8F9B587DD4592AD28257D59340982 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7760CB7190F4491AB07A026D9110E063 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5BCD395827E14F7C9EBB403D5DCBE8E4 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BA323502224E474A8D4CDF2AC7F919C7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_507C7245FF5145F1AE3802D7B9CE49E8 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_18C4C53A81B44B2F99C0BB250C11602D }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -58,5 +58,5 @@ jobs:
         with:
           app-name: 'GreenGrowAPI'
           slot-name: 'Production'
-          package: '*.jar'
+          package: '*.war'
           
