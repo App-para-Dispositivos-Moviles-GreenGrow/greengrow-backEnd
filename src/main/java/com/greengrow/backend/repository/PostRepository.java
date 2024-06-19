@@ -3,6 +3,8 @@ package com.greengrow.backend.repository;
 import com.greengrow.backend.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Repository interface for managing Post entities in the GreenGrow application.
  * @author GrowGenius
@@ -17,4 +19,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      * @return True if a post with the specified title exists, false otherwise.
      */
     Boolean existsByTitle(String title);
+    List<Post> findByUserId(Long userId);
 }

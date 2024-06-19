@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Represents a course entity in the GreenGrow application.
  * @author GrowGenius
@@ -73,4 +75,12 @@ public class Course {
      */
     @Column(name="date", length =30, nullable=false)
     private String date;
+
+    @ManyToOne
+    @JoinColumn(name = "Usuario_id", nullable = false)
+    private User userId;
+
+    @OneToMany(mappedBy = "course")
+    private List<Purchase> purchases;
+
 }

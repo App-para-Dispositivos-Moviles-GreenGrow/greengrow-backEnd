@@ -13,19 +13,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ArticleServiceImpl implements ArticleService {
-
-    /**
-     * Repository for managing Article entities.
-     */
     @Autowired
     private ArticleRepository articleRepository;
 
-    /**
-     * Creates a new article.
-     *
-     * @param article The article to be created.
-     * @return The created article.
-     */
     @Override
     public Article createArticle(Article article) {
         return articleRepository.save(article);

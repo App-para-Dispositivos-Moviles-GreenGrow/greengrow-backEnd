@@ -3,6 +3,8 @@ package com.greengrow.backend.repository;
 import com.greengrow.backend.model.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Repository interface for managing Course entities in the GreenGrow application.
  * @author GrowGenius
@@ -18,4 +20,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      * @return True if a course with the specified name and price exists, false otherwise.
      */
     Boolean existsByNameAndPrice(String name, String price);
+
+    List<Course> findByUserId(Long userId);
 }

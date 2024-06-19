@@ -106,8 +106,8 @@ public class PostController {
             throw new RuntimeException("La descripción del post es obligatoria");
         }
 
-        if(post.getDescription().length() > 150) {
-            throw new RuntimeException("La descripción del post no puede tener más de 150 caracteres");
+        if(post.getDescription().length() > 550) {
+            throw new RuntimeException("La descripción del post no puede tener más de 550 caracteres");
         }
 
         if(post.getViews() < 0 || post.getViews() > 999999) {
@@ -116,21 +116,6 @@ public class PostController {
 
         if(post.getLikes() < 0 || post.getLikes() > 999999) {
             throw new RuntimeException("El número de likes debe estar entre 0 y 999999");
-        }
-
-        if(post.getComments() < 0 || post.getComments() > 999999) {
-            throw new RuntimeException("El número de comentarios debe estar entre 0 y 999999");
-        }
-
-        if (post.getTags() != null) {
-            for (String tag : post.getTags()) {
-                if (tag == null || tag.isEmpty()) {
-                    throw new RuntimeException("Las etiquetas de los post no pueden ser nulas o vacías");
-                }
-                if (tag.length() > 25) {
-                    throw new RuntimeException("Cada etiqueta de post no puede tener más de 25 caracteres");
-                }
-            }
         }
 
     }
