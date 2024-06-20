@@ -2,7 +2,9 @@ package com.greengrow.backend.service.impl;
 
 import com.greengrow.backend.exception.ResourceNotFoundException;
 import com.greengrow.backend.model.Purchase;
+import com.greengrow.backend.repository.CourseRepository;
 import com.greengrow.backend.repository.PurchaseRepository;
+import com.greengrow.backend.repository.UserRepository;
 import com.greengrow.backend.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,20 @@ import java.util.List;
 public class PurchaseServiceImpl implements PurchaseService {
     @Autowired
     private PurchaseRepository purchaseRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+
 
     @Override
     public Purchase createPurchase(Purchase purchase) {
+        if(purchase.getUserId() == null || !userRepository.existsById(purchase.getUserId())) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        if(purchase.getCourseId() == null || !courseRepository.existsById(purchase.getCourseId())) {
+            throw new ResourceNotFoundException("Course not found");
+        }
         return purchaseRepository.save(purchase);
     }
 

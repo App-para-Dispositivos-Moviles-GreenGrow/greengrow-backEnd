@@ -18,14 +18,10 @@ public class Purchase {
     private Long id;
 
     //relaciones
-    @ManyToOne
-    @JoinColumn(name = "Usuario_id", nullable = false)
-    private User userId;
-
-    @ManyToOne
-    @JoinColumn(name = "Course_id", nullable = false)
-    private Course courseId;
-
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+    @Column(name = "course_id", nullable = false)
+    private Long courseId;
     @Column(name = "status", length = 10, nullable = false)
     private String status;
 }

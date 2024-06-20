@@ -17,62 +17,19 @@ import java.util.List;
  * @version 1.0 19/11/2023
  */
 @RestController
-@RequestMapping("/api/green-grow/v1")
+@RequestMapping("/api/posts")
 public class PostController {
     @Autowired
     private PostService postService;
 
-    private final PostRepository postRepository;
-
-    /**
-     * Constructor for PostController.
-     * @param postRepository The repository object used for accessing posts.
-     */
-    public PostController(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
-
-    //URL: http://localhost:8080/api/green-grow/v1/posts
-    //Method: GET
-    /**
-     * Method for handling GET requests for all posts.
-     * @return ResponseEntity with the list of all posts and the HTTP status code.
-     */
-    @GetMapping("/posts")
-    public ResponseEntity<List<Post>> getAllPosts() {
-        return new ResponseEntity<List<Post>>(postRepository.findAll(), HttpStatus.OK);
-    }
-
-    //URL: http://localhost:8080/api/green-grow/v1/posts/filterByTag
-    //Method: GET
-    /**
-     * Method for handling GET requests for all posts by tag.
-     * @return ResponseEntity with the list of all posts and the HTTP status code.
-     */
-    @GetMapping("/posts/filterByTag")
-    public ResponseEntity<List<Post>> getAllPostsByTag() {
-        return new ResponseEntity<List<Post>>(postRepository.findAll(), HttpStatus.OK);
-    }
-
-    //URL: http://localhost:8080/api/green-grow/v1/posts
-    //Method: POST
-    /**
-     * Method for handling POST requests for creating a new post.
-     * @param post The post object to be created.
-     * @return ResponseEntity with the created post and the HTTP status code.
-     */
-    @PostMapping("/posts")
+    @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
         validatePost(post);
         //existsByNameAndPrice(post);
         return new ResponseEntity<Post>(postService.createPost(post), HttpStatus.CREATED);
     }
 
-    /**
-     * Method for validating the post object.
-     * @param post The post object to be validated.
-     * @throws RuntimeException if the post object is not valid.
-     */
+
     private void validatePost(Post post){
         if(post.getTitle() == null || post.getTitle().isEmpty()){
             throw new RuntimeException("El título del post es obligatorio");
@@ -119,4 +76,34 @@ public class PostController {
         }
 
     }
+
+
+    @GetMapping
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long userId) {
+        return new ResponseEntity<>(postService.getPostsByUserId(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable Long id) {
+        return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+        postService.deletePostById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post post) {
+        return new ResponseEntity<>(postService.updatePost(id, post), HttpStatus.OK);
+    }
+
 }

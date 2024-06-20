@@ -2,7 +2,9 @@ package com.greengrow.backend.service.impl;
 
 import com.greengrow.backend.exception.ResourceNotFoundException;
 import com.greengrow.backend.model.Course;
+import com.greengrow.backend.model.User;
 import com.greengrow.backend.repository.CourseRepository;
+import com.greengrow.backend.repository.UserRepository;
 import com.greengrow.backend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,19 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Course createCourse(Course course) {
+        if (course.getUserId() == null || !userRepository.existsById(course.getUserId())) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        User user = userRepository.findById(course.getUserId()).get();
+
+        if (!"experto".equals(user.getRole())) {
+            throw new ResourceNotFoundException("Only users with role 'experto' can create a course");
+        }
         return courseRepository.save(course);
     }
 

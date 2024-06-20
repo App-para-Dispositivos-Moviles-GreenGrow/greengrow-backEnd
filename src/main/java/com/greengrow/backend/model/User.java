@@ -34,17 +34,4 @@ public class User {
         @Column(name="city", length =50, nullable=false)
         private String city;
 
-
-        //relaciones
-        @OneToMany(mappedBy = "user")
-        private List<Post> posts;
-
-        @OneToMany(mappedBy = "user")
-        private List<Course> courses;
-
-        @OneToMany(mappedBy = "user")
-        private List<Comment> comments;
-
-        @OneToMany(mappedBy = "user")
-        private List<Purchase> purchases;
 }

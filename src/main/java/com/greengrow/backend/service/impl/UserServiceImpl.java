@@ -19,7 +19,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        validateUserRole(user.getRole());
         return userRepository.save(user);
+    }
+    private void validateUserRole(String rol) {
+        if (!"experto".equals(rol) && !"usuario".equals(rol)) {
+            throw new ResourceNotFoundException("The role must be 'experto' or 'usuario'");
+        }
     }
 
     @Override

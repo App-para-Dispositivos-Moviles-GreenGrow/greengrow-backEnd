@@ -2,7 +2,9 @@ package com.greengrow.backend.service.impl;
 
 import com.greengrow.backend.exception.ResourceNotFoundException;
 import com.greengrow.backend.model.Post;
+import com.greengrow.backend.model.User;
 import com.greengrow.backend.repository.PostRepository;
+import com.greengrow.backend.repository.UserRepository;
 import com.greengrow.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,16 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
 
     @Override
     public Post createPost(Post post) {
+        if(post.getUserId() == null || !userRepository.existsById(post.getUserId())) {
+            throw new ResourceNotFoundException("User not found");
+        }
         return postRepository.save(post);
     }
 

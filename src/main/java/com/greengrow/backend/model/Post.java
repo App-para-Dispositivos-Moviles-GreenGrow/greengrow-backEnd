@@ -56,14 +56,10 @@ public class Post {
     @Column(name = "date", length =10, nullable=false)
     private String date;
 
+    @Column(name = "userId", length =10, nullable=false)
+    private Long userId;
 
-    //relaciones
-    @ManyToOne
-    @JoinColumn(name = "Usuario_id", nullable = false)
-    private User userId;
 
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments;
 
 
 
